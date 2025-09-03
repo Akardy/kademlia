@@ -6,8 +6,9 @@ pub struct Node {
 }
 
 impl Node {
-    pub fn new() -> Self {
-        let seed = utils::import_or_generate_seed();
+    pub fn new(path: String) -> Self {
+
+        let seed = utils::import_or_generate_seed(path);
         Node {
             id: Key::new(seed)
         }
