@@ -6,7 +6,7 @@ pub struct Node {
 }
 
 impl Node {
-    pub fn new(path: String) -> Self {
+    pub fn new(path: Option<String>) -> Self {
 
         let seed = utils::import_or_generate_seed(path);
         Node {

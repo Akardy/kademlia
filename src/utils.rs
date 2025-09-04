@@ -5,8 +5,13 @@ use rand::TryRngCore;
 
 use crate::key::Key;
 
-pub fn import_or_generate_seed(path: String) -> [u8; 32] {
-    match fs::read(&path) {
+pub fn import_or_generate_seed(path: Option<String>) -> [u8; 32] {
+    let seed_path = match path {
+        Some(p) => p,
+        None => "seed.bin".to_string()
+    };
+    
+    match fs::read(&seed_path) {
         Ok(seed_vec) if seed_vec.len() == 32 => {
             let mut seed = [0u8; 32];
             seed.copy_from_slice(&seed_vec);
@@ -16,7 +21,7 @@ pub fn import_or_generate_seed(path: String) -> [u8; 32] {
         _ => {
             let mut seed = [0u8; 32];
             OsRng.try_fill_bytes(&mut seed).unwrap();
-            save_seed(seed, path);
+            save_seed(seed, seed_path);
             seed
         }
     }
